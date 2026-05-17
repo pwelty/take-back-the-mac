@@ -106,5 +106,4 @@ If Apple wants platform-level trust, it should provide platform-level cleanup, c
 
 Take back the Mac.
 
-That's a fact, Jack.
-
+That's a Mac, Jack.

@@ -1,0 +1,12 @@
+{
+  "name": "take-back-the-mac",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler pages dev public",
+    "deploy": "wrangler pages deploy public --project-name take-back-the-mac --branch main",
+    "d1:create": "wrangler d1 create take-back-the-mac-votes",
+    "d1:migrate:local": "wrangler d1 execute take-back-the-mac-votes --local --file=./schema.sql",
+    "d1:migrate:remote": "wrangler d1 execute take-back-the-mac-votes --remote --file=./schema.sql"
+  }
+}

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="An Apple User Bill of Rights for local ownership, clean uninstall, app accountability, and better platform stewardship.">
+    <title>Take Back the Mac</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">TBM</span>
+        <span>Take Back the Mac</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="#rights">Vote</a>
+        <a href="#about">Bill</a>
+        <a href="https://github.com/pwelty/take-back-the-mac">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="about">
+        <div class="hero-copy">
+          <p class="tagline">The Mac is not vendor territory.</p>
+          <h1>The machine I paid for should behave like mine.</h1>
+          <p class="lede">
+            An Apple User Bill of Rights for clean uninstall, visible app footprints,
+            honest background behavior, App Store stewardship, and devices that treat
+            their owners like owners.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#rights">Vote on the rights</a>
+            <a class="button secondary" href="https://github.com/pwelty/take-back-the-mac">Improve the text</a>
+          </div>
+        </div>
+
+        <aside class="score-panel" aria-live="polite">
+          <div>
+            <p class="panel-label">Live support</p>
+            <p class="score-number" id="total-score">0</p>
+          </div>
+          <dl class="score-stats">
+            <div>
+              <dt>Up</dt>
+              <dd id="total-up">0</dd>
+            </div>
+            <div>
+              <dt>Down</dt>
+              <dd id="total-down">0</dd>
+            </div>
+          </dl>
+          <p class="status" id="vote-status">Loading vote counts...</p>
+        </aside>
+      </section>
+
+      <section class="rights-section" id="rights" aria-labelledby="rights-heading">
+        <div class="section-heading">
+          <h2 id="rights-heading">Vote The Bill</h2>
+          <p>
+            Upvote the rights Apple should make real first. Downvote anything that
+            feels wrong, weak, or misframed.
+          </p>
+        </div>
+        <div class="rights-list" id="rights-list"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>That's a Mac, Jack.</span>
+      <a href="https://marco.org/2026/04/01/letter-to-john-ternus">Inspired in part by Marco Arment's letter to John Ternus</a>
+    </footer>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

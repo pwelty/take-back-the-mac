@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "take-back-the-mac",
+  "pages_build_output_dir": "./public",
+  "compatibility_date": "2026-05-11",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "take-back-the-mac-votes",
+      "database_id": "addd2cea-a613-4f20-8c54-91bd27db5c62"
+    }
+  ]
+}

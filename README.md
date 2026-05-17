@@ -25,6 +25,35 @@ Apple should use its control to defend the user's boundary:
 
 Start here: [Apple User Bill of Rights](APPLE-USER-BILL-OF-RIGHTS.md)
 
+## Web App
+
+The public web app lives in `public/`. It includes up/down voting for each right, backed by a tiny Cloudflare Pages Function and a D1 database.
+
+Live site: [take-back-the-mac.pages.dev](https://take-back-the-mac.pages.dev/)
+
+Local development:
+
+```sh
+npm run dev
+```
+
+Deploy:
+
+```sh
+npm run deploy
+```
+
+Cloudflare resources:
+
+- Pages project: `take-back-the-mac`
+- D1 database: `take-back-the-mac-votes`
+
+If the schema changes, run:
+
+```sh
+npm run d1:migrate:remote
+```
+
 ## Adjacent Efforts To Contact
 
 This is not starting from zero. PRs are welcome for better contacts, active campaigns, and people doing related work.
@@ -44,4 +73,4 @@ PRs are welcome. Bring specific examples, screenshots, file paths, receipts, and
 
 Please keep the work user-centered. This is not generic Apple-bashing. It is an argument for a better bargain between Apple and the people who paid for the machines.
 
-That's a fact, Jack.
+That's a Mac, Jack.
