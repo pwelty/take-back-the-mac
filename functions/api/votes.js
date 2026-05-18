@@ -38,7 +38,7 @@ async function ensureSchema(db) {
       CREATE TABLE IF NOT EXISTS ballots (
         voter_id TEXT NOT NULL,
         item_id TEXT NOT NULL,
-        value INTEGER NOT NULL CHECK (value IN (-1, 1)),
+        value INTEGER NOT NULL CHECK (value = 1),
         updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (voter_id, item_id)
       )
@@ -51,8 +51,7 @@ async function snapshot(db, voterId = "") {
   const countsResult = await db.prepare(`
     SELECT
       item_id,
-      SUM(CASE WHEN value = 1 THEN 1 ELSE 0 END) AS up,
-      SUM(CASE WHEN value = -1 THEN 1 ELSE 0 END) AS down
+      SUM(CASE WHEN value = 1 THEN 1 ELSE 0 END) AS up
     FROM ballots
     GROUP BY item_id
   `).all();
@@ -60,8 +59,7 @@ async function snapshot(db, voterId = "") {
   const counts = new Map();
   for (const row of countsResult.results || []) {
     counts.set(row.item_id, {
-      up: Number(row.up || 0),
-      down: Number(row.down || 0)
+      up: Number(row.up || 0)
     });
   }
 
@@ -80,12 +78,11 @@ async function snapshot(db, voterId = "") {
 
   return {
     items: RIGHTS.map((id) => {
-      const count = counts.get(id) || { up: 0, down: 0 };
+      const count = counts.get(id) || { up: 0 };
       return {
         id,
         up: count.up,
-        down: count.down,
-        score: count.up - count.down,
+        score: count.up,
         choice: choices.get(id) || 0
       };
     }),
@@ -124,8 +121,8 @@ export async function onRequestPost(context) {
     return json({ error: "Unknown item." }, 400);
   }
 
-  if (value !== 1 && value !== -1) {
-    return json({ error: "Vote must be 1 or -1." }, 400);
+  if (value !== 1) {
+    return json({ error: "Vote must be 1." }, 400);
   }
 
   if (!validVoterId(voterId)) {

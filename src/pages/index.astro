@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="A public idea board and Apple User Bill of Rights for local ownership, clean uninstall, app accountability, and better platform stewardship."
+      content="A public idea board for local ownership, clean uninstall, app accountability, and better platform stewardship."
     />
     <title>Take Back the Mac</title>
     <link rel="stylesheet" href="/styles.css" />
@@ -19,8 +19,9 @@
         <span>Take Back the Mac</span>
       </a>
       <nav aria-label="Primary">
+        <a href="/manifesto/">Manifesto</a>
         <a href="#ideas">Ideas</a>
-        <a href="#rights">Bill</a>
+        <a href="#rights">What we want</a>
       </nav>
     </header>
 
@@ -36,35 +37,38 @@
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#idea-form">Add an idea</a>
-            <a class="button secondary" href="#rights">Vote on the bill</a>
+            <a class="button secondary" href="/manifesto/">Read the manifesto</a>
+            <a class="button secondary" href="#rights">What we want</a>
           </div>
         </div>
+      </section>
 
-        <aside class="score-panel" aria-live="polite">
-          <div>
-            <p class="panel-label">Live support</p>
-            <p class="score-number" id="total-score">0</p>
-          </div>
-          <dl class="score-stats">
-            <div>
-              <dt>Up</dt>
-              <dd id="total-up">0</dd>
-            </div>
-            <div>
-              <dt>Ideas</dt>
-              <dd id="idea-count">0</dd>
-            </div>
-          </dl>
-          <p class="status" id="vote-status">Loading the board...</p>
-        </aside>
+      <section class="manifesto-overview" aria-labelledby="manifesto-heading">
+        <div class="section-heading">
+          <h2 id="manifesto-heading">Manifesto</h2>
+          <p>
+            This is a simple argument: Apple has enough control to make the
+            Mac cleaner, safer, and more respectful. If it wants that control,
+            it should use it to defend the user.
+          </p>
+        </div>
+        <div class="manifesto-card">
+          <p>
+            The Mac should be a trusted personal computer, not a place where
+            every app leaves a private mess and every owner becomes a part-time
+            system administrator. Clean uninstall, visible app footprints,
+            honest background behavior, and a better App Store are not power
+            user luxuries. They are table stakes for an owned device.
+          </p>
+          <a class="button primary" href="/manifesto/">Read the manifesto</a>
+        </div>
       </section>
 
       <section class="ideas-section" id="ideas" aria-labelledby="ideas-heading">
         <div class="section-heading">
           <h2 id="ideas-heading">Idea board</h2>
           <p>
-            Add a concrete thing Apple should fix. Vote good ideas up, bad
-            ideas down, and let the useful demands rise.
+            Add a concrete thing Apple should fix. Upvote what should rise.
           </p>
         </div>
 
@@ -105,10 +109,21 @@
                 </select>
               </label>
               <label>
-                <span>Name optional</span>
-                <input name="author" type="text" maxlength="80" placeholder="Your name" />
+                <span>Email</span>
+                <input
+                  name="email"
+                  type="email"
+                  maxlength="254"
+                  required
+                  autocomplete="email"
+                  placeholder="you@example.com"
+                />
               </label>
             </div>
+            <label>
+              <span>Name optional</span>
+              <input name="author" type="text" maxlength="80" placeholder="Your name" />
+            </label>
             <button class="button primary" type="submit">Submit idea</button>
             <p class="status" id="idea-form-status" aria-live="polite"></p>
           </form>
@@ -130,13 +145,23 @@
 
       <section class="rights-section" id="rights" aria-labelledby="rights-heading">
         <div class="section-heading">
-          <h2 id="rights-heading">Vote the bill</h2>
+          <h2 id="rights-heading">What we want</h2>
           <p>
-            The first draft is still here. Upvote the rights Apple should make
-            real first. Downvote anything that feels wrong, weak, or misframed.
+            The first demands are here. Upvote what Apple should make real
+            first.
           </p>
         </div>
         <div class="rights-list" id="rights-list"></div>
+        <div class="demand-callout">
+          <div>
+            <h3>Add your own demand</h3>
+            <p>
+              If something is missing, add it to the idea board. Specific
+              demands beat vague frustration.
+            </p>
+          </div>
+          <a class="button primary" href="#idea-form">Add a demand</a>
+        </div>
       </section>
     </main>
 

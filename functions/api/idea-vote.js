@@ -37,8 +37,8 @@ export async function onRequestPost(context) {
     return json({ error: "Missing or invalid idea id." }, 400);
   }
 
-  if (value !== 1 && value !== -1) {
-    return json({ error: "Vote must be 1 or -1." }, 400);
+  if (value !== 1) {
+    return json({ error: "Vote must be 1." }, 400);
   }
 
   if (!validVoterId(voterId)) {

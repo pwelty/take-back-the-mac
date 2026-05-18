@@ -2,7 +2,7 @@
 
 The Mac is not vendor territory. It is the user's machine.
 
-This repository maintains an Apple User Bill of Rights: a plain-language set of expectations for macOS, iOS, the App Store, uninstall behavior, background processes, Services pressure, and local ownership.
+This repository maintains the Take Back the Mac manifesto and a public idea board for concrete demands around macOS, iOS, the App Store, uninstall behavior, background processes, Services pressure, and local ownership.
 
 Apple asks users to accept a controlled platform in exchange for safety, coherence, and peace of mind. That can be a fair bargain. It stops being fair when users give up control and still have to live like system administrators.
 
@@ -10,9 +10,9 @@ Apple asks users to accept a controlled platform in exchange for safety, coheren
 
 Credit where due: this project is partly inspired by Marco Arment's [A letter to John Ternus](https://marco.org/2026/04/01/letter-to-john-ternus), also discussed on [Accidental Tech Podcast 686](https://atp.fm/686).
 
-Marco made the humane version of the argument: computers should work for their owners, with respect for their time, attention, money, data, and privacy. This repo picks up that thread and turns it toward user rights, uninstall behavior, app residue, background processes, App Store stewardship, and Services pressure.
+Marco made the humane version of the argument: computers should work for their owners, with respect for their time, attention, money, data, and privacy. This repo picks up that thread and turns it toward uninstall behavior, app residue, background processes, App Store stewardship, Services pressure, and local ownership.
 
-## The Ask
+## The ask
 
 Apple should use its control to defend the user's boundary:
 
@@ -23,16 +23,17 @@ Apple should use its control to defend the user's boundary:
 - Services should support the device experience, not swallow it.
 - Local ownership should be real.
 
-Start here: [Apple User Bill of Rights](APPLE-USER-BILL-OF-RIGHTS.md)
+Start here: [takebackthemac.org/manifesto](https://takebackthemac.org/manifesto/)
 
 ## Web app
 
 The public web app is an Astro site with Cloudflare Pages Functions and D1 behind the parts that need memory. It includes:
 
+- A manifesto page
 - A public idea board
-- Idea submission
-- Up/down voting on ideas
-- Up/down voting on the Apple User Bill of Rights
+- Idea submission with a required email address
+- Upvoting on ideas
+- Upvoting on the core demands
 
 Live site: [takebackthemac.org](https://takebackthemac.org/)
 
@@ -68,7 +69,7 @@ If the schema changes, run:
 npm run d1:migrate:remote
 ```
 
-## Adjacent Efforts To Contact
+## Adjacent efforts to contact
 
 This is not starting from zero. PRs are welcome for better contacts, active campaigns, and people doing related work.
 

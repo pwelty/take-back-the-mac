@@ -1,69 +1,58 @@
 const RIGHTS = [
   {
     id: "real-uninstall",
-    title: "The right to real uninstall",
-    body: "Removing an app should remove what the app installed, touched, scheduled, cached, and left behind.",
-    ask: "Uninstall means uninstall."
+    title: "Make uninstall mean uninstall",
+    body: "When a user removes an app, macOS should remove the bundle, support files, launch agents, login items, caches, preferences, receipts, background helpers, and vendor-created leftovers that came with it.",
   },
   {
     id: "app-footprint",
-    title: "The right to know what an app owns",
-    body: "Every app should have a visible footprint: bundle, containers, caches, logs, preferences, helpers, receipts, and background processes.",
-    ask: "If an app created it, the user should be able to see it."
+    title: "Show what every app owns",
+    body: "Every app should have a plain, built-in footprint view that shows its bundle, containers, caches, logs, preferences, helpers, receipts, launch items, permissions, and active background processes. If an app created it, the user should be able to see it."
   },
   {
     id: "background-behavior",
-    title: "The right to honest background behavior",
-    body: "Helpers, agents, daemons, updaters, and login items should be grouped under the parent app and named in plain English.",
-    ask: "No more mystery processes."
+    title: "Put background behavior in plain sight",
+    body: "Helpers, agents, daemons, updaters, login items, and sync processes should be grouped under the parent app, labeled in plain English, and easy to stop without hunting through system folders. No more mystery processes."
   },
   {
     id: "clean-trials",
-    title: "The right to clean trials",
-    body: "Trying an app should not feel like contaminating your machine or volunteering for system cleanup.",
-    ask: "Install, test, remove, restore."
+    title: "Make app trials clean and reversible",
+    body: "Trying an app should not feel like contaminating a machine. macOS should support reversible trials that let users install, test, remove, and restore without becoming unpaid cleanup staff."
   },
   {
     id: "app-store-stewardship",
-    title: "The right to App Store stewardship",
-    body: "If Apple controls distribution, the store should not be a maze of scam subscriptions, fake utilities, knockoffs, and dark patterns.",
-    ask: "A controlled platform has to earn its control."
+    title: "Make the App Store earn its control",
+    body: "If Apple controls distribution, the store should not be full of scam subscriptions, fake utilities, copycats, dark patterns, junk SEO, and apps designed to confuse people into paying."
   },
   {
     id: "plain-permissions",
-    title: "The right to plain permissions",
-    body: "Permissions should say what an app can do, what data it can touch, and whether that access continues in the background.",
-    ask: "Security language should be user language."
+    title: "Make permissions user language",
+    body: "Permission prompts and settings should say what an app can do, what data it can touch, why it wants access, and whether that access continues after the app is closed.",
   },
   {
     id: "local-ownership",
-    title: "The right to local ownership",
-    body: "Local files belong to the user. Local storage should not become a private landfill for vendors.",
-    ask: "The Mac is not vendor territory."
+    title: "Protect local ownership",
+    body: "Local files, local settings, and local storage belong to the user. Apps should not be allowed to turn Library folders, containers, and caches into private landfills the owner cannot understand or clean.",
   },
   {
     id: "refuse-cloud-gravity",
-    title: "The right to refuse cloud gravity",
-    body: "Cloud services should be optional unless the product is explicitly a cloud product.",
-    ask: "Local features should work locally."
+    title: "Keep local features local",
+    body: "Cloud services should be optional unless the product is explicitly a cloud product. Local workflows should stay local, and core features should not decay into sync nags, storage upsells, or account requirements.",
   },
   {
     id: "more-than-services",
-    title: "The right to be more than a Services customer",
-    body: "A personal computer should not keep steering its owner toward subscriptions, storage nudges, bundles, payment rails, and cloud locks.",
-    ask: "Stop redesigning the device around Services growth."
+    title: "Build the Mac for owners, not Services revenue",
+    body: "A personal computer should not keep steering its owner toward subscriptions, storage nudges, bundles, payment rails, media funnels, and cloud locks. The product is the computer, not the services funnel.",
   },
   {
     id: "inspect-and-reset",
-    title: "The right to inspect and reset",
-    body: "Users deserve first-class answers to simple questions: what installed this, what is running, what starts at login, what has access, and what can be removed.",
-    ask: "User questions deserve user-facing answers."
+    title: "Answer basic system questions",
+    body: "macOS should answer basic ownership questions directly: what installed this, what is running, what starts at login, what has access, what changed recently, and what can be removed safely.",
   },
   {
     id: "treated-as-owner",
-    title: "The right to be treated as the owner",
-    body: "Safety should not require infantilization. Simplicity should not mean hiding the mess until the user trips over it.",
-    ask: "Control should serve the person who bought the device."
+    title: "Treat the buyer as the owner",
+    body: "Safety should not require infantilization. Simplicity should not mean hiding the mess until the user trips over it. Apple should use its control to serve the person who bought the device.",
   }
 ];
 
@@ -80,10 +69,6 @@ const rightsList = document.querySelector("#rights-list");
 const ideaList = document.querySelector("#idea-list");
 const ideaForm = document.querySelector("#idea-form");
 const ideaFormStatus = document.querySelector("#idea-form-status");
-const voteStatus = document.querySelector("#vote-status");
-const totalScore = document.querySelector("#total-score");
-const totalUp = document.querySelector("#total-up");
-const ideaCount = document.querySelector("#idea-count");
 
 function getVoterId() {
   const key = "takeBackTheMacVoterId";
@@ -104,17 +89,16 @@ function escapeHTML(value) {
     .replaceAll("'", "&#39;");
 }
 
-function icon(kind) {
-  const up = kind === "up";
+function icon() {
   return `
     <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-      <path d="${up ? "M12 5 5 13h4v6h6v-6h4L12 5Z" : "M12 19 5 11h4V5h6v6h4l-7 8Z"}" fill="currentColor"/>
+      <path d="M12 5 5 13h4v6h6v-6h4L12 5Z" fill="currentColor"/>
     </svg>
   `;
 }
 
 function formatScore(score) {
-  return score > 0 ? `+${score}` : String(score);
+  return String(score);
 }
 
 function formatDate(value) {
@@ -131,17 +115,12 @@ function renderRights() {
       <div>
         <h3>${right.title}</h3>
         <p>${right.body}</p>
-        <p class="ask">${right.ask}</p>
       </div>
       <div class="vote-box">
         <div class="vote-score" data-score>0</div>
         <button class="vote-button" type="button" data-vote="1" aria-pressed="false" title="Vote up" aria-label="Vote up: ${right.title}">
-          ${icon("up")}
+          ${icon()}
           <span data-up>0</span>
-        </button>
-        <button class="vote-button" type="button" data-vote="-1" aria-pressed="false" title="Vote down" aria-label="Vote down: ${right.title}">
-          ${icon("down")}
-          <span data-down>0</span>
         </button>
       </div>
     </article>
@@ -180,12 +159,8 @@ function renderIdeas() {
         <div class="vote-box">
           <div class="vote-score" data-score>${formatScore(idea.score)}</div>
           <button class="vote-button" type="button" data-vote="1" aria-pressed="${idea.choice === 1}" title="Vote up" aria-label="Vote up: ${escapeHTML(idea.title)}">
-            ${icon("up")}
+            ${icon()}
             <span data-up>${idea.up}</span>
-          </button>
-          <button class="vote-button" type="button" data-vote="-1" aria-pressed="${idea.choice === -1}" title="Vote down" aria-label="Vote down: ${escapeHTML(idea.title)}">
-            ${icon("down")}
-            <span data-down>${idea.down}</span>
           </button>
         </div>
       </article>
@@ -204,7 +179,7 @@ function renderIdeas() {
 }
 
 function setStatus(message) {
-  voteStatus.textContent = message;
+  document.body.dataset.status = message;
 }
 
 function setIdeaFormStatus(message) {
@@ -212,36 +187,18 @@ function setIdeaFormStatus(message) {
 }
 
 function updateSummary() {
-  const rightTotals = [...state.rightVotes.values()].reduce((totals, item) => {
-    totals.up += item.up;
-    totals.down += item.down;
-    totals.score += item.score;
-    return totals;
-  }, { up: 0, down: 0, score: 0 });
-
-  const ideaTotals = state.ideas.reduce((totals, item) => {
-    totals.up += item.up;
-    totals.down += item.down;
-    totals.score += item.score;
-    return totals;
-  }, { up: 0, down: 0, score: 0 });
-
-  totalUp.textContent = rightTotals.up + ideaTotals.up;
-  totalScore.textContent = formatScore(rightTotals.score + ideaTotals.score);
-  ideaCount.textContent = state.ideas.length;
 }
 
 function updateRightVotes(items) {
   state.rightVotes = new Map(items.map((item) => [item.id, item]));
 
   for (const right of RIGHTS) {
-    const item = state.rightVotes.get(right.id) || { up: 0, down: 0, score: 0, choice: 0 };
+    const item = state.rightVotes.get(right.id) || { up: 0, score: 0, choice: 0 };
     const card = document.querySelector(`[data-item-id="${right.id}"]`);
     if (!card) continue;
 
     card.querySelector("[data-score]").textContent = formatScore(item.score);
     card.querySelector("[data-up]").textContent = item.up;
-    card.querySelector("[data-down]").textContent = item.down;
 
     for (const button of card.querySelectorAll(".vote-button")) {
       const buttonValue = Number(button.dataset.vote);
@@ -303,6 +260,8 @@ async function loadIdeas() {
 }
 
 async function submitRightVote(itemId, value) {
+  if (value !== 1) return;
+
   state.pendingRights.add(itemId);
   updateRightVotes([...state.rightVotes.values()]);
   setStatus("Saving vote...");
@@ -335,6 +294,8 @@ async function submitRightVote(itemId, value) {
 }
 
 async function submitIdeaVote(ideaId, value) {
+  if (value !== 1) return;
+
   state.pendingIdeas.add(ideaId);
   renderIdeas();
   setStatus("Saving idea vote...");
@@ -384,6 +345,7 @@ async function submitIdea(event) {
         title: formData.get("title"),
         body: formData.get("body"),
         category: formData.get("category"),
+        email: formData.get("email"),
         author: formData.get("author"),
         voterId: state.voterId
       })
