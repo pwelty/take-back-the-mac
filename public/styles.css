@@ -490,6 +490,11 @@ h1 {
   font-weight: 760;
 }
 
+.site-footer small {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
 .manifesto-article {
   max-width: 850px;
   padding: clamp(40px, 6vw, 72px) 0;

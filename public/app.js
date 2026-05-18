@@ -32,7 +32,7 @@ const RIGHTS = [
   {
     id: "local-ownership",
     title: "Protect local ownership",
-    body: "Local files, local settings, and local storage belong to the user. Apps should not be allowed to turn Library folders, containers, and caches into private landfills the owner cannot understand or clean.",
+    body: "Local files, local settings, and local storage belong to the user. Apps should not be allowed to turn Library folders, containers, caches, or mobile document silos into private landfills. Documents created on iPhone or iPad should remain user-owned, visible in Files, exportable, backed up, and removable without depending on the app that happened to create them.",
   },
   {
     id: "refuse-cloud-gravity",
