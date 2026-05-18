@@ -302,7 +302,7 @@ h1 {
 
 .demand-form {
   max-width: 850px;
-  margin-top: clamp(56px, 7vw, 88px);
+  margin-top: clamp(80px, 9vw, 120px);
 }
 
 .ideas-toolbar {
