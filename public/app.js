@@ -245,7 +245,7 @@ async function loadIdeas() {
   } catch {
     ideaList.innerHTML = `
       <div class="empty">
-        <strong>Ideas are unavailable right now.</strong>
+        <strong>Requests are unavailable right now.</strong>
         <span>The manifesto still loads. The database is the part being stubborn.</span>
       </div>
     `;
@@ -291,7 +291,7 @@ async function submitIdeaVote(ideaId, value) {
 
   state.pendingIdeas.add(ideaId);
   renderIdeas();
-  setStatus("Saving idea vote...");
+  setStatus("Saving request vote...");
 
   try {
     const response = await fetch("/api/idea-vote", {
@@ -307,12 +307,12 @@ async function submitIdeaVote(ideaId, value) {
       })
     });
 
-    if (!response.ok) throw new Error("Idea vote save failed");
+    if (!response.ok) throw new Error("Request vote save failed");
 
     await loadIdeas();
-    setStatus("Idea vote saved.");
+    setStatus("Request vote saved.");
   } catch {
-    setStatus("Idea vote did not save. Try again.");
+    setStatus("Request vote did not save. Try again.");
   } finally {
     state.pendingIdeas.delete(ideaId);
     renderIdeas();
@@ -325,7 +325,7 @@ async function submitIdea(event) {
   const formData = new FormData(ideaForm);
   const submitButton = ideaForm.querySelector("button[type='submit']");
   submitButton.disabled = true;
-  setIdeaFormStatus("Submitting idea...");
+  setIdeaFormStatus("Submitting request...");
 
   try {
     const response = await fetch("/api/ideas", {
@@ -346,7 +346,7 @@ async function submitIdea(event) {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.error || "Idea did not save.");
+      throw new Error(data.error || "Request did not save.");
     }
 
     ideaForm.reset();
@@ -354,10 +354,10 @@ async function submitIdea(event) {
     state.ideas = data.ideas;
     renderIdeas();
     updateIdeaSortButtons();
-    setIdeaFormStatus("Demand submitted.");
-    setStatus("New demand added.");
+    setIdeaFormStatus("Request submitted.");
+    setStatus("New request added.");
   } catch (error) {
-    setIdeaFormStatus(error.message || "Idea did not save. Try again.");
+    setIdeaFormStatus(error.message || "Request did not save. Try again.");
   } finally {
     submitButton.disabled = false;
   }

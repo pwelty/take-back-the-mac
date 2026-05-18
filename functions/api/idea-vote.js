@@ -34,7 +34,7 @@ export async function onRequestPost(context) {
   const voterId = getVoterId(context.request, body);
 
   if (!/^[a-f0-9-]{36}$/i.test(ideaId)) {
-    return json({ error: "Missing or invalid idea id." }, 400);
+    return json({ error: "Missing or invalid request id." }, 400);
   }
 
   if (value !== 1) {
@@ -50,7 +50,7 @@ export async function onRequestPost(context) {
     .first();
 
   if (!idea) {
-    return json({ error: "Idea not found." }, 404);
+    return json({ error: "Request not found." }, 404);
   }
 
   const previous = await db.prepare(`

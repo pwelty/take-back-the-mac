@@ -2,7 +2,7 @@
 
 The Mac is not vendor territory. It is the user's machine.
 
-This repository maintains the Take Back the Mac manifesto and a public demand board for concrete demands around macOS, iOS, the App Store, uninstall behavior, background processes, Services pressure, and local ownership.
+This repository maintains the Take Back the Mac manifesto and a public request board for concrete requests around macOS, iOS, the App Store, uninstall behavior, background processes, Services pressure, and local ownership.
 
 Apple asks users to accept a controlled platform in exchange for safety, coherence, and peace of mind. That can be a fair bargain. It stops being fair when users give up control and still have to live like system administrators.
 
@@ -30,10 +30,10 @@ Start here: [takebackthemac.org/manifesto](https://takebackthemac.org/manifesto/
 The public web app is an Astro site with Cloudflare Pages Functions and D1 behind the parts that need memory. It includes:
 
 - A manifesto page
-- A public demand board
-- Demand submission with a required email address
-- Upvoting on submitted demands
-- Upvoting on the core demands
+- A public request board
+- Request submission with a required email address
+- Upvoting on submitted requests
+- Upvoting on the core requests
 - A plain privacy page: no analytics, no public email list, no email verification for voting
 
 Live site: [takebackthemac.org](https://takebackthemac.org/)

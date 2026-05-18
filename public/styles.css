@@ -252,27 +252,6 @@ h1 {
   font-weight: 720;
 }
 
-.label-row {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.info-dot {
-  display: inline-grid;
-  width: 18px;
-  height: 18px;
-  place-items: center;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  color: var(--blue-ink);
-  background: var(--bg);
-  font-size: 0.78rem;
-  font-weight: 820;
-  line-height: 1;
-  cursor: help;
-}
-
 .field-note {
   color: var(--muted);
   font-size: 0.84rem;
@@ -323,7 +302,7 @@ h1 {
 
 .demand-form {
   max-width: 850px;
-  margin-top: clamp(32px, 5vw, 56px);
+  margin-top: clamp(56px, 7vw, 88px);
 }
 
 .ideas-toolbar {

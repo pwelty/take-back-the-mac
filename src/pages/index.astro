@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="A public demand board for local ownership, clean uninstall, app accountability, and better platform stewardship."
+      content="A public request board for local ownership, clean uninstall, app accountability, and better platform stewardship."
     />
     <title>Take Back the Mac</title>
     <link rel="stylesheet" href="/styles.css" />
@@ -20,8 +20,8 @@
       </a>
       <nav aria-label="Primary">
         <a href="/manifesto/">Manifesto</a>
-        <a href="#rights">What we want</a>
-        <a href="#idea-form">Add a demand</a>
+        <a href="#rights">Requests</a>
+        <a href="#idea-form">Add a request</a>
       </nav>
     </header>
 
@@ -58,9 +58,9 @@
 
       <section class="rights-section" id="rights" aria-labelledby="rights-heading">
         <div class="section-heading">
-          <h2 id="rights-heading">What we want</h2>
+          <h2 id="rights-heading">Requests</h2>
           <p>
-            The first demands are here. Upvote what Apple should make real
+            The first requests are here. Upvote what Apple should address
             first.
           </p>
         </div>
@@ -68,8 +68,8 @@
 
         <div class="ideas-panel submitted-demands" id="submitted-demands" hidden>
           <div class="ideas-toolbar">
-            <h3>Submitted demands</h3>
-            <div class="segmented" aria-label="Sort submitted demands">
+            <h3>Submitted requests</h3>
+            <div class="segmented" aria-label="Sort submitted requests">
               <button type="button" data-idea-sort="top" aria-pressed="true">Top</button>
               <button type="button" data-idea-sort="new" aria-pressed="false">New</button>
             </div>
@@ -79,9 +79,9 @@
 
         <form class="idea-form demand-form" id="idea-form">
           <div class="form-intro">
-            <h3>Add your own demand</h3>
+            <h3>Add your own request</h3>
             <p>
-              If something is missing, add it here. Specific demands beat vague
+              If something is missing, add it here. Specific requests beat vague
               frustration.
             </p>
           </div>
@@ -106,14 +106,7 @@
           </label>
           <div class="form-row">
             <label>
-              <span class="label-row">
-                Email
-                <span
-                  class="info-dot"
-                  title="Email is not displayed. It is used only for abuse prevention and follow-up about your demand."
-                  aria-label="Email is not displayed. It is used only for abuse prevention and follow-up about your demand."
-                >i</span>
-              </span>
+              <span>Email</span>
               <input
                 name="email"
                 type="email"
@@ -124,7 +117,8 @@
                 placeholder="you@example.com"
               />
               <span class="field-note" id="email-note">
-                Not public. Used only for abuse prevention and follow-up.
+                Not public. Used only for abuse prevention and follow-up about
+                your request.
                 <a href="/privacy/">Privacy</a>.
               </span>
             </label>
@@ -133,7 +127,7 @@
               <input name="author" type="text" maxlength="80" placeholder="Your name" />
             </label>
           </div>
-          <button class="button primary" type="submit">Submit demand</button>
+          <button class="button primary" type="submit">Submit request</button>
           <p class="status" id="idea-form-status" aria-live="polite"></p>
         </form>
       </section>

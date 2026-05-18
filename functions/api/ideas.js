@@ -174,7 +174,7 @@ export async function onRequestPost(context) {
   const category = "Other";
 
   if (title.length < 6) {
-    return json({ error: "Idea title is too short." }, 400);
+    return json({ error: "Request title is too short." }, 400);
   }
 
   if (!validEmail(email)) {
@@ -190,7 +190,7 @@ export async function onRequestPost(context) {
   `).bind(voterId).first();
 
   if (Number(recent?.count || 0) >= 3) {
-    return json({ error: "Add a few at a time before adding more ideas." }, 429);
+    return json({ error: "Add a few at a time before adding more requests." }, 429);
   }
 
   const id = crypto.randomUUID();
