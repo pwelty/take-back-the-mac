@@ -1,0 +1,151 @@
+---
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A public idea board and Apple User Bill of Rights for local ownership, clean uninstall, app accountability, and better platform stewardship."
+    />
+    <title>Take Back the Mac</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">TBM</span>
+        <span>Take Back the Mac</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="#ideas">Ideas</a>
+        <a href="#rights">Bill</a>
+        <a href="https://github.com/pwelty/take-back-the-mac">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="about">
+        <div class="hero-copy">
+          <p class="tagline">The Mac is not vendor territory.</p>
+          <h1>The machine I paid for should behave like mine.</h1>
+          <p class="lede">
+            A public idea board for clean uninstall, visible app footprints,
+            honest background behavior, App Store stewardship, and devices that
+            treat their owners like owners.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#idea-form">Add an idea</a>
+            <a class="button secondary" href="#rights">Vote on the bill</a>
+          </div>
+        </div>
+
+        <aside class="score-panel" aria-live="polite">
+          <div>
+            <p class="panel-label">Live support</p>
+            <p class="score-number" id="total-score">0</p>
+          </div>
+          <dl class="score-stats">
+            <div>
+              <dt>Up</dt>
+              <dd id="total-up">0</dd>
+            </div>
+            <div>
+              <dt>Ideas</dt>
+              <dd id="idea-count">0</dd>
+            </div>
+          </dl>
+          <p class="status" id="vote-status">Loading the board...</p>
+        </aside>
+      </section>
+
+      <section class="ideas-section" id="ideas" aria-labelledby="ideas-heading">
+        <div class="section-heading">
+          <h2 id="ideas-heading">Idea board</h2>
+          <p>
+            Add a concrete thing Apple should fix. Vote good ideas up, bad
+            ideas down, and let the useful demands rise.
+          </p>
+        </div>
+
+        <div class="ideas-shell">
+          <form class="idea-form" id="idea-form">
+            <h3>Add an idea</h3>
+            <label>
+              <span>Title</span>
+              <input
+                name="title"
+                type="text"
+                maxlength="120"
+                required
+                placeholder="Uninstall should show every file an app created"
+              />
+            </label>
+            <label>
+              <span>Details</span>
+              <textarea
+                name="body"
+                maxlength="1200"
+                rows="5"
+                placeholder="What should Apple change? What pain does it remove?"
+              ></textarea>
+            </label>
+            <div class="form-row">
+              <label>
+                <span>Category</span>
+                <select name="category">
+                  <option>Uninstall</option>
+                  <option>Background</option>
+                  <option>App Store</option>
+                  <option>Services</option>
+                  <option>Privacy</option>
+                  <option>iOS</option>
+                  <option>Mac</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label>
+                <span>Name optional</span>
+                <input name="author" type="text" maxlength="80" placeholder="Your name" />
+              </label>
+            </div>
+            <button class="button primary" type="submit">Submit idea</button>
+            <p class="status" id="idea-form-status" aria-live="polite"></p>
+          </form>
+
+          <div class="ideas-panel">
+            <div class="ideas-toolbar">
+              <h3>Community ideas</h3>
+              <div class="segmented" aria-label="Sort ideas">
+                <button type="button" data-idea-sort="top" aria-pressed="true">Top</button>
+                <button type="button" data-idea-sort="new" aria-pressed="false">New</button>
+              </div>
+            </div>
+            <div class="idea-list" id="idea-list" aria-live="polite">
+              <p class="empty">Loading ideas...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="rights-section" id="rights" aria-labelledby="rights-heading">
+        <div class="section-heading">
+          <h2 id="rights-heading">Vote the bill</h2>
+          <p>
+            The first draft is still here. Upvote the rights Apple should make
+            real first. Downvote anything that feels wrong, weak, or misframed.
+          </p>
+        </div>
+        <div class="rights-list" id="rights-list"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>That's a Mac, Jack.</span>
+      <a href="https://marco.org/2026/04/01/letter-to-john-ternus">Inspired in part by Marco Arment's letter to John Ternus</a>
+    </footer>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

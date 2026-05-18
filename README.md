@@ -25,16 +25,29 @@ Apple should use its control to defend the user's boundary:
 
 Start here: [Apple User Bill of Rights](APPLE-USER-BILL-OF-RIGHTS.md)
 
-## Web App
+## Web app
 
-The public web app lives in `public/`. It includes up/down voting for each right, backed by a tiny Cloudflare Pages Function and a D1 database.
+The public web app is an Astro site with Cloudflare Pages Functions and D1 behind the parts that need memory. It includes:
 
-Live site: [take-back-the-mac.pages.dev](https://take-back-the-mac.pages.dev/)
+- A public idea board
+- Idea submission
+- Up/down voting on ideas
+- Up/down voting on the Apple User Bill of Rights
+
+Live site: [takebackthemac.org](https://takebackthemac.org/)
+
+Fallback: [take-back-the-mac.pages.dev](https://take-back-the-mac.pages.dev/)
 
 Local development:
 
 ```sh
 npm run dev
+```
+
+Cloudflare-local development with Functions and D1:
+
+```sh
+npm run dev:cf
 ```
 
 Deploy:
@@ -47,6 +60,7 @@ Cloudflare resources:
 
 - Pages project: `take-back-the-mac`
 - D1 database: `take-back-the-mac-votes`
+- Domain: `takebackthemac.org`
 
 If the schema changes, run:
 

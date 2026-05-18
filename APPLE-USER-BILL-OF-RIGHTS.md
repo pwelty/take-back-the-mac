@@ -16,7 +16,7 @@ This is not elegance. This is maintenance disguised as simplicity.
 
 So here is the bargain users should demand.
 
-## 1. The Right To Real Uninstall
+## 1. The right to real uninstall
 
 When I remove an app, the system should offer three choices:
 
@@ -26,49 +26,49 @@ When I remove an app, the system should offer three choices:
 
 No archaeology. No third-party cleaner. No hunting through folders whose names look like someone dropped Scrabble tiles into a system directory.
 
-## 2. The Right To Know What An App Owns
+## 2. The right to know what an app owns
 
 Every app should have a visible footprint in System Settings: app bundle, containers, caches, logs, preferences, login items, helpers, browser storage, package receipts, and background processes.
 
 If an app created it, the user should be able to see it.
 
-## 3. The Right To Honest Background Behavior
+## 3. The right to honest background behavior
 
 Background helpers should be grouped under the parent app, named in plain English, and removable from one place.
 
 "Helper," "agent," "updater," and "daemon" are not explanations. They are hiding places.
 
-## 4. The Right To Clean Trials
+## 4. The right to clean trials
 
 Trying an app should not feel like contaminating your machine.
 
 Apple should provide a built-in trial mode for apps. Install, test, remove, restore. The user should be able to audition software without becoming a systems administrator.
 
-## 5. The Right To App Store Stewardship
+## 5. The right to App Store stewardship
 
 If Apple controls distribution, Apple owns the quality of the store.
 
 The App Store should not be a maze of scam subscriptions, fake utilities, knockoffs, and dark patterns. A controlled platform has to earn its control. Review should mean something.
 
-## 6. The Right To Plain Permissions
+## 6. The right to plain permissions
 
 Permissions should say what an app can do, what data it can touch, and whether that access continues in the background.
 
 A user should not need to understand Apple's internal security model to know whether an app is watching a folder, reading contacts, indexing files, or phoning home.
 
-## 7. The Right To Local Ownership
+## 7. The right to local ownership
 
 Local files should be treated as belonging to the user. Local storage should not become a private landfill for vendors.
 
 The Mac is not a place where every app gets to build a tiny hidden kingdom.
 
-## 8. The Right To Refuse Cloud Gravity
+## 8. The right to refuse cloud gravity
 
 Cloud services should be optional unless the product is explicitly a cloud product. Users should be able to use local features locally.
 
 "Sign in to continue" should not be the default posture of personal computing.
 
-## 9. The Right To Be More Than A Services Customer
+## 9. The right to be more than a Services customer
 
 Apple should stop treating every device as a funnel into recurring revenue.
 
@@ -82,7 +82,7 @@ A personal computer should not constantly steer its owner toward renting more of
 
 Apple's Services business should support the user experience. It should not quietly redesign the user experience around Services growth.
 
-## 10. The Right To Inspect And Reset
+## 10. The right to inspect and reset
 
 Every Apple platform should include first-class tools for answering simple questions:
 
@@ -94,7 +94,7 @@ Every Apple platform should include first-class tools for answering simple quest
 
 These are user questions. They deserve user-facing answers.
 
-## 11. The Right To Be Treated As The Owner
+## 11. The right to be treated as the owner
 
 Safety should not require infantilization. Simplicity should not mean hiding the mess until the user trips over it. Control should serve the person who bought the device.
 
