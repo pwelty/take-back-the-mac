@@ -8,8 +8,7 @@ const RIGHTS = [
   "local-ownership",
   "refuse-cloud-gravity",
   "more-than-services",
-  "inspect-and-reset",
-  "treated-as-owner"
+  "inspect-and-reset"
 ];
 
 const RIGHT_SET = new Set(RIGHTS);

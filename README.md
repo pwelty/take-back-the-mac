@@ -34,6 +34,7 @@ The public web app is an Astro site with Cloudflare Pages Functions and D1 behin
 - Demand submission with a required email address
 - Upvoting on submitted demands
 - Upvoting on the core demands
+- A plain privacy page: no analytics, no public email list, no email verification for voting
 
 Live site: [takebackthemac.org](https://takebackthemac.org/)
 

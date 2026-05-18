@@ -149,12 +149,6 @@ h1 {
   margin: 0;
 }
 
-.section-kicker {
-  color: var(--blue-ink);
-  font-size: 0.92rem;
-  font-weight: 780;
-}
-
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -258,6 +252,33 @@ h1 {
   font-weight: 720;
 }
 
+.label-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.info-dot {
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--blue-ink);
+  background: var(--bg);
+  font-size: 0.78rem;
+  font-weight: 820;
+  line-height: 1;
+  cursor: help;
+}
+
+.field-note {
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 520;
+}
+
 .idea-form input,
 .idea-form select,
 .idea-form textarea {
@@ -296,13 +317,13 @@ h1 {
   min-width: 0;
 }
 
-.submitted-demands,
-.demand-form {
+.submitted-demands {
   margin-top: 14px;
 }
 
 .demand-form {
   max-width: 850px;
+  margin-top: clamp(32px, 5vw, 56px);
 }
 
 .ideas-toolbar {

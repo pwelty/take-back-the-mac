@@ -31,11 +31,15 @@
           <p class="tagline">The Mac is not vendor territory.</p>
           <h1>The machine I paid for should behave like mine.</h1>
           <div class="hero-body">
-            <p class="section-kicker">Manifesto</p>
             <p>
               This is a simple argument: Apple has enough control to make the
               Mac cleaner, safer, and more respectful. If it wants that control,
               it should use it to defend the user.
+            </p>
+            <p>
+              Safety should not require infantilization. Simplicity should not
+              mean hiding the mess until the user trips over it. Apple should
+              use its control to serve the person who bought the device.
             </p>
             <p>
               The Mac should be a trusted personal computer, not a place where
@@ -102,15 +106,27 @@
           </label>
           <div class="form-row">
             <label>
-              <span>Email</span>
+              <span class="label-row">
+                Email
+                <span
+                  class="info-dot"
+                  title="Email is not displayed. It is used only for abuse prevention and follow-up about your demand."
+                  aria-label="Email is not displayed. It is used only for abuse prevention and follow-up about your demand."
+                >i</span>
+              </span>
               <input
                 name="email"
                 type="email"
                 maxlength="254"
                 required
                 autocomplete="email"
+                aria-describedby="email-note"
                 placeholder="you@example.com"
               />
+              <span class="field-note" id="email-note">
+                Not public. Used only for abuse prevention and follow-up.
+                <a href="/privacy/">Privacy</a>.
+              </span>
             </label>
             <label>
               <span>Name optional</span>
@@ -127,6 +143,7 @@
       <span>That's a Mac, Jack.</span>
       <a href="https://paulwelty.com">Started by Paul Welty</a>
       <a href="https://marco.org/2026/04/01/letter-to-john-ternus">Inspired in part by Marco Arment's letter to John Ternus</a>
+      <a href="/privacy/">Privacy</a>
     </footer>
 
     <script src="/app.js" type="module"></script>

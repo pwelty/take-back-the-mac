@@ -48,11 +48,6 @@ const RIGHTS = [
     id: "inspect-and-reset",
     title: "Answer basic system questions",
     body: "macOS should answer basic ownership questions directly: what installed this, what is running, what starts at login, what has access, what changed recently, and what can be removed safely.",
-  },
-  {
-    id: "treated-as-owner",
-    title: "Treat the buyer as the owner",
-    body: "Safety should not require infantilization. Simplicity should not mean hiding the mess until the user trips over it. Apple should use its control to serve the person who bought the device.",
   }
 ];
 
