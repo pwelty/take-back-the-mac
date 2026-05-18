@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="A public idea board for local ownership, clean uninstall, app accountability, and better platform stewardship."
+      content="A public demand board for local ownership, clean uninstall, app accountability, and better platform stewardship."
     />
     <title>Take Back the Mac</title>
     <link rel="stylesheet" href="/styles.css" />
@@ -20,8 +20,8 @@
       </a>
       <nav aria-label="Primary">
         <a href="/manifesto/">Manifesto</a>
-        <a href="#ideas">Ideas</a>
         <a href="#rights">What we want</a>
+        <a href="#idea-form">Add a demand</a>
       </nav>
     </header>
 
@@ -30,115 +30,24 @@
         <div class="hero-copy">
           <p class="tagline">The Mac is not vendor territory.</p>
           <h1>The machine I paid for should behave like mine.</h1>
-          <p class="lede">
-            A public idea board for clean uninstall, visible app footprints,
-            honest background behavior, App Store stewardship, and devices that
-            treat their owners like owners.
-          </p>
-          <div class="hero-actions">
-            <a class="button primary" href="#idea-form">Add an idea</a>
-            <a class="button secondary" href="/manifesto/">Read the manifesto</a>
-            <a class="button secondary" href="#rights">What we want</a>
+          <div class="hero-body">
+            <p class="section-kicker">Manifesto</p>
+            <p>
+              This is a simple argument: Apple has enough control to make the
+              Mac cleaner, safer, and more respectful. If it wants that control,
+              it should use it to defend the user.
+            </p>
+            <p>
+              The Mac should be a trusted personal computer, not a place where
+              every app leaves a private mess and every owner becomes a
+              part-time system administrator. Clean uninstall, visible app
+              footprints, honest background behavior, and a better App Store
+              are not power user luxuries. They are table stakes for an owned
+              device.
+            </p>
           </div>
-        </div>
-      </section>
-
-      <section class="manifesto-overview" aria-labelledby="manifesto-heading">
-        <div class="section-heading">
-          <h2 id="manifesto-heading">Manifesto</h2>
-          <p>
-            This is a simple argument: Apple has enough control to make the
-            Mac cleaner, safer, and more respectful. If it wants that control,
-            it should use it to defend the user.
-          </p>
-        </div>
-        <div class="manifesto-card">
-          <p>
-            The Mac should be a trusted personal computer, not a place where
-            every app leaves a private mess and every owner becomes a part-time
-            system administrator. Clean uninstall, visible app footprints,
-            honest background behavior, and a better App Store are not power
-            user luxuries. They are table stakes for an owned device.
-          </p>
-          <a class="button primary" href="/manifesto/">Read the manifesto</a>
-        </div>
-      </section>
-
-      <section class="ideas-section" id="ideas" aria-labelledby="ideas-heading">
-        <div class="section-heading">
-          <h2 id="ideas-heading">Idea board</h2>
-          <p>
-            Add a concrete thing Apple should fix. Upvote what should rise.
-          </p>
-        </div>
-
-        <div class="ideas-shell">
-          <form class="idea-form" id="idea-form">
-            <h3>Add an idea</h3>
-            <label>
-              <span>Title</span>
-              <input
-                name="title"
-                type="text"
-                maxlength="120"
-                required
-                placeholder="Uninstall should show every file an app created"
-              />
-            </label>
-            <label>
-              <span>Details</span>
-              <textarea
-                name="body"
-                maxlength="1200"
-                rows="5"
-                placeholder="What should Apple change? What pain does it remove?"
-              ></textarea>
-            </label>
-            <div class="form-row">
-              <label>
-                <span>Category</span>
-                <select name="category">
-                  <option>Uninstall</option>
-                  <option>Background</option>
-                  <option>App Store</option>
-                  <option>Services</option>
-                  <option>Privacy</option>
-                  <option>iOS</option>
-                  <option>Mac</option>
-                  <option>Other</option>
-                </select>
-              </label>
-              <label>
-                <span>Email</span>
-                <input
-                  name="email"
-                  type="email"
-                  maxlength="254"
-                  required
-                  autocomplete="email"
-                  placeholder="you@example.com"
-                />
-              </label>
-            </div>
-            <label>
-              <span>Name optional</span>
-              <input name="author" type="text" maxlength="80" placeholder="Your name" />
-            </label>
-            <button class="button primary" type="submit">Submit idea</button>
-            <p class="status" id="idea-form-status" aria-live="polite"></p>
-          </form>
-
-          <div class="ideas-panel">
-            <div class="ideas-toolbar">
-              <h3>Ideas</h3>
-              <div class="segmented" aria-label="Sort ideas">
-                <button type="button" data-idea-sort="top" aria-pressed="true">Top</button>
-                <button type="button" data-idea-sort="new" aria-pressed="false">New</button>
-              </div>
-            </div>
-            <div class="idea-list" id="idea-list" aria-live="polite">
-              <p class="empty">Loading ideas...</p>
-            </div>
+          <div class="hero-actions">
+            <a class="button primary" href="/manifesto/">Read the whole manifesto</a>
           </div>
         </div>
       </section>
@@ -152,16 +61,65 @@
           </p>
         </div>
         <div class="rights-list" id="rights-list"></div>
-        <div class="demand-callout">
-          <div>
+
+        <div class="ideas-panel submitted-demands" id="submitted-demands" hidden>
+          <div class="ideas-toolbar">
+            <h3>Submitted demands</h3>
+            <div class="segmented" aria-label="Sort submitted demands">
+              <button type="button" data-idea-sort="top" aria-pressed="true">Top</button>
+              <button type="button" data-idea-sort="new" aria-pressed="false">New</button>
+            </div>
+          </div>
+          <div class="idea-list" id="idea-list" aria-live="polite"></div>
+        </div>
+
+        <form class="idea-form demand-form" id="idea-form">
+          <div class="form-intro">
             <h3>Add your own demand</h3>
             <p>
-              If something is missing, add it to the idea board. Specific
-              demands beat vague frustration.
+              If something is missing, add it here. Specific demands beat vague
+              frustration.
             </p>
           </div>
-          <a class="button primary" href="#idea-form">Add a demand</a>
-        </div>
+          <label>
+            <span>Title</span>
+            <input
+              name="title"
+              type="text"
+              maxlength="120"
+              required
+              placeholder="Uninstall should show every file an app created"
+            />
+          </label>
+          <label>
+            <span>Details</span>
+            <textarea
+              name="body"
+              maxlength="1200"
+              rows="5"
+              placeholder="What should Apple change? What pain does it remove?"
+            ></textarea>
+          </label>
+          <div class="form-row">
+            <label>
+              <span>Email</span>
+              <input
+                name="email"
+                type="email"
+                maxlength="254"
+                required
+                autocomplete="email"
+                placeholder="you@example.com"
+              />
+            </label>
+            <label>
+              <span>Name optional</span>
+              <input name="author" type="text" maxlength="80" placeholder="Your name" />
+            </label>
+          </div>
+          <button class="button primary" type="submit">Submit demand</button>
+          <p class="status" id="idea-form-status" aria-live="polite"></p>
+        </form>
       </section>
     </main>
 

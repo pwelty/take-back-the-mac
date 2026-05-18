@@ -1,16 +1,3 @@
-const CATEGORIES = [
-  "Uninstall",
-  "Background",
-  "App Store",
-  "Services",
-  "Privacy",
-  "iOS",
-  "Mac",
-  "Other"
-];
-
-const CATEGORY_SET = new Set(CATEGORIES);
-
 function json(body, status = 200) {
   return Response.json(body, {
     status,
@@ -184,7 +171,7 @@ export async function onRequestPost(context) {
   const ideaBody = cleanBody(body.body, 1200);
   const author = cleanLine(body.author, 80);
   const email = cleanEmail(body.email);
-  const category = CATEGORY_SET.has(body.category) ? body.category : "Other";
+  const category = "Other";
 
   if (title.length < 6) {
     return json({ error: "Idea title is too short." }, 400);

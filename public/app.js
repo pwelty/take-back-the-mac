@@ -67,6 +67,7 @@ const state = {
 
 const rightsList = document.querySelector("#rights-list");
 const ideaList = document.querySelector("#idea-list");
+const ideaPanel = document.querySelector("#submitted-demands");
 const ideaForm = document.querySelector("#idea-form");
 const ideaFormStatus = document.querySelector("#idea-form-status");
 
@@ -109,36 +110,49 @@ function formatDate(value) {
   }).format(new Date(value.replace(" ", "T") + "Z"));
 }
 
+function getRightVote(id) {
+  return state.rightVotes.get(id) || { up: 0, score: 0, choice: 0 };
+}
+
+function sortedRights() {
+  return RIGHTS.map((right, index) => ({
+    ...right,
+    index,
+    votes: getRightVote(right.id).score
+  })).sort((a, b) => b.votes - a.votes || a.index - b.index);
+}
+
 function renderRights() {
-  rightsList.innerHTML = RIGHTS.map((right) => `
+  rightsList.innerHTML = sortedRights().map((right) => {
+    const item = getRightVote(right.id);
+
+    return `
     <article class="right-card" data-item-id="${right.id}">
       <div>
         <h3>${right.title}</h3>
         <p>${right.body}</p>
       </div>
       <div class="vote-box">
-        <div class="vote-score" data-score>0</div>
-        <button class="vote-button" type="button" data-vote="1" aria-pressed="false" title="Vote up" aria-label="Vote up: ${right.title}">
+        <div class="vote-score" data-score>${formatScore(item.score)}</div>
+        <button class="vote-button" type="button" data-vote="1" aria-pressed="${item.choice === 1}" title="Vote up" aria-label="Vote up: ${right.title}" ${state.pendingRights.has(right.id) ? "disabled" : ""}>
           ${icon()}
-          <span data-up>0</span>
+          <span data-up>${item.up}</span>
         </button>
       </div>
     </article>
-  `).join("");
+  `;
+  }).join("");
 }
 
 function renderIdeas() {
   if (!state.ideas.length) {
-    ideaList.innerHTML = `
-      <div class="empty">
-        <strong>No ideas yet.</strong>
-        <span>Be the first person to make the complaint useful.</span>
-      </div>
-    `;
+    ideaPanel.hidden = true;
+    ideaList.innerHTML = "";
     updateSummary();
     return;
   }
 
+  ideaPanel.hidden = false;
   ideaList.innerHTML = state.ideas.map((idea) => {
     const body = idea.body
       ? `<p>${escapeHTML(idea.body).replaceAll("\n", "<br />")}</p>`
@@ -149,7 +163,6 @@ function renderIdeas() {
       <article class="idea-card" data-idea-id="${escapeHTML(idea.id)}">
         <div>
           <div class="idea-meta">
-            <span>${escapeHTML(idea.category)}</span>
             <span>${escapeHTML(idea.status)}</span>
             <span>${formatDate(idea.createdAt)}${author}</span>
           </div>
@@ -191,22 +204,7 @@ function updateSummary() {
 
 function updateRightVotes(items) {
   state.rightVotes = new Map(items.map((item) => [item.id, item]));
-
-  for (const right of RIGHTS) {
-    const item = state.rightVotes.get(right.id) || { up: 0, score: 0, choice: 0 };
-    const card = document.querySelector(`[data-item-id="${right.id}"]`);
-    if (!card) continue;
-
-    card.querySelector("[data-score]").textContent = formatScore(item.score);
-    card.querySelector("[data-up]").textContent = item.up;
-
-    for (const button of card.querySelectorAll(".vote-button")) {
-      const buttonValue = Number(button.dataset.vote);
-      button.setAttribute("aria-pressed", String(item.choice === buttonValue));
-      button.disabled = state.pendingRights.has(right.id);
-    }
-  }
-
+  renderRights();
   updateSummary();
 }
 
@@ -344,7 +342,6 @@ async function submitIdea(event) {
       body: JSON.stringify({
         title: formData.get("title"),
         body: formData.get("body"),
-        category: formData.get("category"),
         email: formData.get("email"),
         author: formData.get("author"),
         voterId: state.voterId
@@ -362,8 +359,8 @@ async function submitIdea(event) {
     state.ideas = data.ideas;
     renderIdeas();
     updateIdeaSortButtons();
-    setIdeaFormStatus("Idea submitted.");
-    setStatus("New idea added.");
+    setIdeaFormStatus("Demand submitted.");
+    setStatus("New demand added.");
   } catch (error) {
     setIdeaFormStatus(error.message || "Idea did not save. Try again.");
   } finally {
