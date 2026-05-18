@@ -1,3 +1,6 @@
+import { ensureCommentsSchema, publicComments } from "../_shared/comments.js";
+import { json, rateLimit, readJsonBody } from "../_shared/security.js";
+
 const RIGHTS = [
   "real-uninstall",
   "app-footprint",
@@ -12,15 +15,6 @@ const RIGHTS = [
 ];
 
 const RIGHT_SET = new Set(RIGHTS);
-
-function json(body, status = 200) {
-  return Response.json(body, {
-    status,
-    headers: {
-      "Cache-Control": "no-store"
-    }
-  });
-}
 
 function getVoterId(request, body = {}) {
   const url = new URL(request.url);
@@ -44,6 +38,7 @@ async function ensureSchema(db) {
     `),
     db.prepare("CREATE INDEX IF NOT EXISTS idx_ballots_item_id ON ballots (item_id)")
   ]);
+  await ensureCommentsSchema(db);
 }
 
 async function snapshot(db, voterId = "") {
@@ -75,6 +70,8 @@ async function snapshot(db, voterId = "") {
     }
   }
 
+  const commentsByRight = await publicComments(db, "right", RIGHTS);
+
   return {
     items: RIGHTS.map((id) => {
       const count = counts.get(id) || { up: 0 };
@@ -82,7 +79,8 @@ async function snapshot(db, voterId = "") {
         id,
         up: count.up,
         score: count.up,
-        choice: choices.get(id) || 0
+        choice: choices.get(id) || 0,
+        comments: commentsByRight.get(id) || []
       };
     }),
     updatedAt: new Date().toISOString()
@@ -105,12 +103,16 @@ export async function onRequestPost(context) {
     return json({ error: "Missing DB binding." }, 500);
   }
 
-  let body;
-  try {
-    body = await context.request.json();
-  } catch {
-    return json({ error: "Expected JSON body." }, 400);
-  }
+  const limited = await rateLimit(context, {
+    bucket: "core-vote",
+    limit: 30,
+    periodSeconds: 60
+  });
+  if (limited) return limited;
+
+  const parsed = await readJsonBody(context.request, 1024);
+  if (parsed.response) return parsed.response;
+  const body = parsed.body;
 
   const itemId = body.itemId;
   const value = Number(body.value);

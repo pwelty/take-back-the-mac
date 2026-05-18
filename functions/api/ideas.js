@@ -1,11 +1,5 @@
-function json(body, status = 200) {
-  return Response.json(body, {
-    status,
-    headers: {
-      "Cache-Control": "no-store"
-    }
-  });
-}
+import { ensureCommentsSchema, publicComments } from "../_shared/comments.js";
+import { json, notifySubmission, rateLimit, readJsonBody } from "../_shared/security.js";
 
 function getVoterId(request, body = {}) {
   const url = new URL(request.url);
@@ -52,7 +46,7 @@ async function ensureSchema(db) {
         category TEXT NOT NULL DEFAULT 'Other',
         author TEXT NOT NULL DEFAULT '',
         email TEXT NOT NULL DEFAULT '',
-        status TEXT NOT NULL DEFAULT 'Open',
+        status TEXT NOT NULL DEFAULT 'Pending',
         voter_id TEXT NOT NULL DEFAULT '',
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
       )
@@ -70,6 +64,7 @@ async function ensureSchema(db) {
     `),
     db.prepare("CREATE INDEX IF NOT EXISTS idx_idea_votes_idea_id ON idea_votes (idea_id)")
   ]);
+  await ensureCommentsSchema(db);
 
   const columns = await db.prepare("PRAGMA table_info(ideas)").all();
   const hasEmail = (columns.results || []).some((column) => column.name === "email");
@@ -101,10 +96,18 @@ async function snapshot(db, voterId = "", sort = "top") {
       COALESCE(SUM(CASE WHEN idea_votes.value = 1 THEN 1 ELSE 0 END), 0) AS up
     FROM ideas
     LEFT JOIN idea_votes ON idea_votes.idea_id = ideas.id
+    WHERE ideas.status = 'Open'
     GROUP BY ideas.id
     ORDER BY ${orderBy}
     LIMIT 100
   `).all();
+
+  const ideas = result.results || [];
+  const commentsByIdea = await publicComments(
+    db,
+    "idea",
+    ideas.map((idea) => idea.id)
+  );
 
   const choices = new Map();
   if (validVoterId(voterId)) {
@@ -120,7 +123,7 @@ async function snapshot(db, voterId = "", sort = "top") {
   }
 
   return {
-    ideas: (result.results || []).map((idea) => ({
+    ideas: ideas.map((idea) => ({
       id: idea.id,
       title: idea.title,
       body: idea.body,
@@ -130,7 +133,8 @@ async function snapshot(db, voterId = "", sort = "top") {
       createdAt: idea.createdAt,
       up: Number(idea.up || 0),
       score: Number(idea.up || 0),
-      choice: choices.get(idea.id) || 0
+      choice: choices.get(idea.id) || 0,
+      comments: commentsByIdea.get(idea.id) || []
     })),
     updatedAt: new Date().toISOString()
   };
@@ -155,12 +159,16 @@ export async function onRequestPost(context) {
     return json({ error: "Missing DB binding." }, 500);
   }
 
-  let body;
-  try {
-    body = await context.request.json();
-  } catch {
-    return json({ error: "Expected JSON body." }, 400);
-  }
+  const limited = await rateLimit(context, {
+    bucket: "request-submit",
+    limit: 5,
+    periodSeconds: 600
+  });
+  if (limited) return limited;
+
+  const parsed = await readJsonBody(context.request, 4096);
+  if (parsed.response) return parsed.response;
+  const body = parsed.body;
 
   const voterId = getVoterId(context.request, body);
   if (!validVoterId(voterId)) {
@@ -169,7 +177,6 @@ export async function onRequestPost(context) {
 
   const title = cleanLine(body.title, 120);
   const ideaBody = cleanBody(body.body, 1200);
-  const author = cleanLine(body.author, 80);
   const email = cleanEmail(body.email);
   const category = "Other";
 
@@ -177,8 +184,8 @@ export async function onRequestPost(context) {
     return json({ error: "Request title is too short." }, 400);
   }
 
-  if (!validEmail(email)) {
-    return json({ error: "A valid email is required." }, 400);
+  if (email && !validEmail(email)) {
+    return json({ error: "Email is optional, but it needs to be valid if included." }, 400);
   }
 
   await ensureSchema(db);
@@ -197,14 +204,30 @@ export async function onRequestPost(context) {
 
   await db.batch([
     db.prepare(`
-      INSERT INTO ideas (id, title, body, category, author, email, voter_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `).bind(id, title, ideaBody, category, author, email, voterId),
+      INSERT INTO ideas (id, title, body, category, author, email, status, voter_id)
+      VALUES (?, ?, ?, ?, '', ?, 'Pending', ?)
+    `).bind(id, title, ideaBody, category, email, voterId),
     db.prepare(`
       INSERT INTO idea_votes (voter_id, idea_id, value, updated_at)
       VALUES (?, ?, 1, CURRENT_TIMESTAMP)
     `).bind(voterId, id)
   ]);
 
-  return json(await snapshot(db, voterId, "new"), 201);
+  await notifySubmission(context, {
+    id,
+    subject: `New Take Back the Mac request: ${title}`,
+    fields: {
+      Type: "Request",
+      Title: title,
+      Details: ideaBody || "(none)",
+      "Submitter email": email || "(not provided)",
+      "Approve command": `UPDATE ideas SET status = 'Open' WHERE id = '${id}';`,
+      "Reject command": `UPDATE ideas SET status = 'Rejected' WHERE id = '${id}';`
+    }
+  });
+
+  return json({
+    ...(await snapshot(db, voterId, "new")),
+    message: "Request submitted for review."
+  }, 201);
 }

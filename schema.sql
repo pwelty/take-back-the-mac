@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS ideas (
   category TEXT NOT NULL DEFAULT 'Other',
   author TEXT NOT NULL DEFAULT '',
   email TEXT NOT NULL DEFAULT '',
-  status TEXT NOT NULL DEFAULT 'Open',
+  status TEXT NOT NULL DEFAULT 'Pending',
   voter_id TEXT NOT NULL DEFAULT '',
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -32,3 +32,28 @@ CREATE TABLE IF NOT EXISTS idea_votes (
 );
 
 CREATE INDEX IF NOT EXISTS idx_idea_votes_idea_id ON idea_votes (idea_id);
+
+CREATE TABLE IF NOT EXISTS rate_limits (
+  key TEXT PRIMARY KEY,
+  bucket TEXT NOT NULL,
+  window_start INTEGER NOT NULL,
+  count INTEGER NOT NULL DEFAULT 0,
+  expires_at INTEGER NOT NULL,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_rate_limits_expires_at ON rate_limits (expires_at);
+
+CREATE TABLE IF NOT EXISTS comments (
+  id TEXT PRIMARY KEY,
+  target_type TEXT NOT NULL CHECK (target_type IN ('right', 'idea')),
+  target_id TEXT NOT NULL,
+  body TEXT NOT NULL,
+  author TEXT NOT NULL DEFAULT '',
+  email TEXT NOT NULL DEFAULT '',
+  status TEXT NOT NULL DEFAULT 'Pending',
+  voter_id TEXT NOT NULL DEFAULT '',
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_comments_target ON comments (target_type, target_id, status, created_at);

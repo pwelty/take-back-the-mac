@@ -57,6 +57,7 @@ const state = {
   ideaSort: "top",
   pendingRights: new Set(),
   pendingIdeas: new Set(),
+  pendingComments: new Set(),
   voterId: getVoterId()
 };
 
@@ -109,6 +110,44 @@ function getRightVote(id) {
   return state.rightVotes.get(id) || { up: 0, score: 0, choice: 0 };
 }
 
+function renderComments(comments = []) {
+  if (!comments.length) return "";
+
+  return `
+    <div class="comment-list">
+      <h4>Comments</h4>
+      ${comments.map((comment) => `
+        <article class="comment">
+          <p>${escapeHTML(comment.body).replaceAll("\n", "<br />")}</p>
+          <span>${formatDate(comment.createdAt)}</span>
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderCommentForm(targetType, targetId, title) {
+  const key = `${targetType}:${targetId}`;
+
+  return `
+    <details class="comment-panel">
+      <summary>Add a comment</summary>
+      <form class="comment-form" data-target-type="${escapeHTML(targetType)}" data-target-id="${escapeHTML(targetId)}">
+        <label>
+          <span>Comment</span>
+          <textarea name="body" maxlength="1200" rows="3" required placeholder="Add useful context, evidence, or a sharper version of the request."></textarea>
+        </label>
+        <label>
+          <span>Email optional</span>
+          <input name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com" />
+        </label>
+        <button class="button secondary" type="submit" ${state.pendingComments.has(key) ? "disabled" : ""}>Submit comment</button>
+        <p class="status comment-status" data-comment-status aria-live="polite"></p>
+      </form>
+    </details>
+  `;
+}
+
 function sortedRights() {
   return RIGHTS.map((right, index) => ({
     ...right,
@@ -126,6 +165,8 @@ function renderRights() {
       <div>
         <h3>${right.title}</h3>
         <p>${right.body}</p>
+        ${renderComments(item.comments)}
+        ${renderCommentForm("right", right.id, right.title)}
       </div>
       <div class="vote-box">
         <div class="vote-score" data-score>${formatScore(item.score)}</div>
@@ -152,17 +193,17 @@ function renderIdeas() {
     const body = idea.body
       ? `<p>${escapeHTML(idea.body).replaceAll("\n", "<br />")}</p>`
       : "";
-    const author = idea.author ? ` by ${escapeHTML(idea.author)}` : "";
 
     return `
       <article class="idea-card" data-idea-id="${escapeHTML(idea.id)}">
         <div>
           <div class="idea-meta">
-            <span>${escapeHTML(idea.status)}</span>
-            <span>${formatDate(idea.createdAt)}${author}</span>
+            <span>${formatDate(idea.createdAt)}</span>
           </div>
           <h3>${escapeHTML(idea.title)}</h3>
           ${body}
+          ${renderComments(idea.comments)}
+          ${renderCommentForm("idea", idea.id, idea.title)}
         </div>
         <div class="vote-box">
           <div class="vote-score" data-score>${formatScore(idea.score)}</div>
@@ -338,7 +379,6 @@ async function submitIdea(event) {
         title: formData.get("title"),
         body: formData.get("body"),
         email: formData.get("email"),
-        author: formData.get("author"),
         voterId: state.voterId
       })
     });
@@ -354,11 +394,60 @@ async function submitIdea(event) {
     state.ideas = data.ideas;
     renderIdeas();
     updateIdeaSortButtons();
-    setIdeaFormStatus("Request submitted.");
-    setStatus("New request added.");
+    setIdeaFormStatus(data.message || "Request submitted for review.");
+    setStatus("Request submitted for review.");
   } catch (error) {
     setIdeaFormStatus(error.message || "Request did not save. Try again.");
   } finally {
+    submitButton.disabled = false;
+  }
+}
+
+async function submitComment(event) {
+  const form = event.target.closest(".comment-form");
+  if (!form) return;
+
+  event.preventDefault();
+
+  const targetType = form.dataset.targetType;
+  const targetId = form.dataset.targetId;
+  const key = `${targetType}:${targetId}`;
+  const formData = new FormData(form);
+  const submitButton = form.querySelector("button[type='submit']");
+  const status = form.querySelector("[data-comment-status]");
+
+  submitButton.disabled = true;
+  state.pendingComments.add(key);
+  status.textContent = "Submitting comment...";
+
+  try {
+    const response = await fetch("/api/comments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Voter-ID": state.voterId
+      },
+      body: JSON.stringify({
+        targetType,
+        targetId,
+        body: formData.get("body"),
+        email: formData.get("email"),
+        voterId: state.voterId
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Comment did not save.");
+    }
+
+    form.reset();
+    status.textContent = data.message || "Comment submitted for review.";
+  } catch (error) {
+    status.textContent = error.message || "Comment did not save. Try again.";
+  } finally {
+    state.pendingComments.delete(key);
     submitButton.disabled = false;
   }
 }
@@ -392,6 +481,7 @@ document.addEventListener("click", (event) => {
 });
 
 ideaForm.addEventListener("submit", submitIdea);
+document.addEventListener("submit", submitComment);
 
 renderRights();
 loadVotes();

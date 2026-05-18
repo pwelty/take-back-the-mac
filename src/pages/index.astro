@@ -10,7 +10,7 @@
       content="A public request board for local ownership, clean uninstall, app accountability, and better platform stewardship."
     />
     <title>Take Back the Mac</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles.css?v=20260518-4" />
   </head>
   <body>
     <header class="site-header">
@@ -59,17 +59,19 @@
             first.
           </p>
         </div>
-        <div class="rights-list" id="rights-list"></div>
+        <div class="request-stack">
+          <div class="rights-list" id="rights-list"></div>
 
-        <div class="ideas-panel submitted-demands" id="submitted-demands" hidden>
-          <div class="ideas-toolbar">
-            <h3>Submitted requests</h3>
-            <div class="segmented" aria-label="Sort submitted requests">
-              <button type="button" data-idea-sort="top" aria-pressed="true">Top</button>
-              <button type="button" data-idea-sort="new" aria-pressed="false">New</button>
+          <div class="ideas-panel submitted-demands" id="submitted-demands" hidden>
+            <div class="ideas-toolbar">
+              <h3>Submitted requests</h3>
+              <div class="segmented" aria-label="Sort submitted requests">
+                <button type="button" data-idea-sort="top" aria-pressed="true">Top</button>
+                <button type="button" data-idea-sort="new" aria-pressed="false">New</button>
+              </div>
             </div>
+            <div class="idea-list" id="idea-list" aria-live="polite"></div>
           </div>
-          <div class="idea-list" id="idea-list" aria-live="polite"></div>
         </div>
 
         <form class="idea-form demand-form" id="idea-form">
@@ -99,29 +101,21 @@
               placeholder="What should Apple change? What pain does it remove?"
             ></textarea>
           </label>
-          <div class="form-row">
-            <label>
-              <span>Email</span>
-              <input
-                name="email"
-                type="email"
-                maxlength="254"
-                required
-                autocomplete="email"
-                aria-describedby="email-note"
-                placeholder="you@example.com"
-              />
-              <span class="field-note" id="email-note">
-                Not public. Used only for abuse prevention and follow-up about
-                your request.
-                <a href="/privacy/">Privacy</a>.
-              </span>
-            </label>
-            <label>
-              <span>Name optional</span>
-              <input name="author" type="text" maxlength="80" placeholder="Your name" />
-            </label>
-          </div>
+          <label>
+            <span>Email optional</span>
+            <input
+              name="email"
+              type="email"
+              maxlength="254"
+              autocomplete="email"
+              aria-describedby="email-note"
+              placeholder="you@example.com"
+            />
+            <span class="field-note" id="email-note">
+              Not public. Only include it if you want follow-up.
+              <a href="/privacy/">Privacy</a>.
+            </span>
+          </label>
           <button class="button primary" type="submit">Submit request</button>
           <p class="status" id="idea-form-status" aria-live="polite"></p>
         </form>
@@ -136,6 +130,6 @@
       <small>Copyright 2026 Paul Welty. All rights reserved.</small>
     </footer>
 
-    <script src="/app.js" type="module"></script>
+    <script src="/app.js?v=20260518-4" type="module"></script>
   </body>
 </html>

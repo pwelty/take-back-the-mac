@@ -1,11 +1,4 @@
-function json(body, status = 200) {
-  return Response.json(body, {
-    status,
-    headers: {
-      "Cache-Control": "no-store"
-    }
-  });
-}
+import { json, rateLimit, readJsonBody } from "../_shared/security.js";
 
 function getVoterId(request, body = {}) {
   const url = new URL(request.url);
@@ -22,12 +15,16 @@ export async function onRequestPost(context) {
     return json({ error: "Missing DB binding." }, 500);
   }
 
-  let body;
-  try {
-    body = await context.request.json();
-  } catch {
-    return json({ error: "Expected JSON body." }, 400);
-  }
+  const limited = await rateLimit(context, {
+    bucket: "idea-vote",
+    limit: 30,
+    periodSeconds: 60
+  });
+  if (limited) return limited;
+
+  const parsed = await readJsonBody(context.request, 1024);
+  if (parsed.response) return parsed.response;
+  const body = parsed.body;
 
   const ideaId = String(body.ideaId || "");
   const value = Number(body.value);
@@ -45,7 +42,7 @@ export async function onRequestPost(context) {
     return json({ error: "Missing or invalid voter id." }, 400);
   }
 
-  const idea = await db.prepare("SELECT id FROM ideas WHERE id = ?")
+  const idea = await db.prepare("SELECT id FROM ideas WHERE id = ? AND status = 'Open'")
     .bind(ideaId)
     .first();
 

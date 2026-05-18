@@ -31,12 +31,16 @@ The public web app is an Astro site with Cloudflare Pages Functions and D1 behin
 
 - A manifesto page
 - A public request board
-- Request submission with a required email address
+- Request submission with manual moderation
+- Optional email for follow-up
+- Pending comments on requests, also manually moderated
 - Upvoting on submitted requests
 - Upvoting on the core requests
 - A plain privacy page: no analytics, no public email list, no email verification for voting
 
 Live site: [takebackthemac.org](https://takebackthemac.org/)
+
+Tester note: [takebackthemac.org/testers](https://takebackthemac.org/testers/)
 
 Fallback: [take-back-the-mac.pages.dev](https://take-back-the-mac.pages.dev/)
 
